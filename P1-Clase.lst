@@ -1,0 +1,82 @@
+SQL> SPOOL
+currently spooling to P01.lst
+SQL> !ls
+
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> RUN
+  1  SELECT *
+  2* FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> /
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> L
+  1  SELECT *
+  2* FROM DUAL
+SQL> L1
+  1* SELECT *
+SQL> L1 2
+  1  SELECT *
+  2* FROM DUAL
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P01.lst
+SQL> HELP SPOOL
+
+ SPOOL
+ -----
+
+ Stores query results in a file, or optionally sends the file to a printer.
+
+ SPO[OL] [file_name[.ext] [CRE[ATE] | REP[LACE] | APP[END]] | OFF | OUT]
+
+
+SQL> SPOOL
+currently spooling to P01.lst
+SQL> DISCONNECT
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+SQL> RUN
+  1  SELECT *
+  2* FROM DUAL
+SP2-0640: Not connected
+SQL> REM 1
+SQL> REM ORCLPDB1
+SQL> CONNECT
+Enter user-name: alu0101618586
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> CONNECT
+Enter user-name: alu0101618586
+Connected.
+SQL> PASSWORD
+Changing password for ALU0101618586
+Password changed
+SQL> DESCRIBE DUAL
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DUMMY                                              VARCHAR2(1)
+
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P01.lst
+SQL> EXIT
+SQL> SPOOL
+currently spooling to P01.lst
+SQL> SHOW USER
+USER is "ALU0101618586"
+SQL> SPOOL OFF

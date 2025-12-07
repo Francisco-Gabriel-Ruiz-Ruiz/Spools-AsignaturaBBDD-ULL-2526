@@ -1,0 +1,743 @@
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> CONNECT
+Enter user-name: alu0101618586
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> DISCONNECT
+SQL> EXIT
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> CONNECT
+Enter user-name: alu0101618586
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> CONNECT
+Enter user-name: alu0101618586
+Connected.
+SQL> DISCONNECT
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+SQL> CONNECT/alu0101618586
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM|SYSBACKUP|SYSDG|SYSKM|SYSRAC}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> CONNECT alu0101618586@ORCLPDB1
+Connected.
+SQL> DISCONNECT
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> LIST
+SP2-0223: No lines in SQL buffer.
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> LIST 2
+  2* FROM DUAL
+SQL> LIST LAST
+  2* FROM DUAL
+SQL> LIST 1
+  1* SELECT *
+SQL> INPUT Nueva linea agnadida 1
+SQL> LIST
+  1  SELECT *
+  2  Nueva linea agnadida 1
+  3* FROM DUAL
+SQL> SELECT *
+  2  FROM DUAL
+  3  ;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> LIST
+  1  SELECT *
+  2  FROM DUAL
+  3* 
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> INPUT Nueva linea agnadida uno
+SQL> LIST
+  1  SELECT *
+  2  FROM DUAL
+  3* Nueva linea agnadida uno
+SQL> INPUT Nueva linea agnadida dos
+SQL> LIST
+  1  SELECT *
+  2  FROM DUAL
+  3  Nueva linea agnadida uno
+  4* Nueva linea agnadida dos
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> APPEND Nuevo texto agnadido tras from dual
+  2* FROM DUALNuevo texto agnadido tras from dual
+SQL> LIST
+  1  SELECT *
+  2* FROM DUALNuevo texto agnadido tras from dual
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> CHANGE /DUAL/TABLA1/
+  2* FROM TABLA1
+SQL> LIST
+  1  SELECT *
+  2* FROM TABLA1
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEL 2
+SQL> LIST
+  1* SELECT *
+SQL> DEL LAST
+SQL> LIST
+SP2-0223: No lines in SQL buffer.
+SQL> LIST
+SP2-0223: No lines in SQL buffer.
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEL 1 2
+SQL> LIST
+SP2-0223: No lines in SQL buffer.
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEL *
+SQL> LIST
+  1* SELECT *
+SQL> DEL 1
+SQL> LIST
+SP2-0223: No lines in SQL buffer.
+SQL> INPUT Linea uno
+SQL> INPUT Linea dos
+SQL> INPUT Linea tres
+SQL> INPUT Linea cuatro
+SQL> LIST
+  1  Linea uno
+  2  Linea dos
+  3  Linea tres
+  4* Linea cuatro
+SQL> DEL 2 3
+SQL> LIST
+  1  Linea uno
+  2* Linea cuatro
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> SAVE ContenidoBufferTest1
+Created file ContenidoBufferTest1.sql
+SQL> GET ContenidoBufferTest1
+  1  SELECT *
+  2* FROM DUAL
+SQL> INPUT
+  3  TestInput
+  4  
+SQL> LIST
+  1  SELECT *
+  2  FROM DUAL
+  3* TestInput
+SQL> SELECT *
+  2  FROM DUAL;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> RUN
+  1  SELECT *
+  2* FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> /
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SHOW USER
+USER is "ALU0101618586"
+SQL> SAVE ComandoShowUser
+Created file ComandoShowUser.sql
+SQL> EDIT ComandoShowUser
+
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> EDIT ComandoShowUserTest
+
+SQL> EDIT ComandoShowUserTest
+
+SQL> REMARK Comentario que sirve para documentar
+SQL> START ComandoShowUser
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> START ComandoShowUserTest
+USER is "ALU0101618586"
+SQL> @ ComandoShowUserTest
+USER is "ALU0101618586"
+SQL> @ComandoShowUserTest
+USER is "ALU0101618586"
+SQL> REMARK /* Comentario que sirve para documentar */
+SQL> REMARK -- Comentario que sirve para documentar
+SQL> LIST
+  1  SELECT *
+  2* FROM DUAL
+SQL> EDIT
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2* FROM TABLA1
+SQL> EDIT ComandoShowUserTest
+
+SQL> EDIT ComandoShowUserTest
+
+SQL> DESCRIBE DUAL
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DUMMY                                              VARCHAR2(1)
+
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SHOW USER
+USER is "ALU0101618586"
+SQL> SHOW PAGESIZE
+pagesize 14
+SQL> SHOW ALL
+appinfo is OFF and set to "SQL*Plus"
+arraysize 15
+autocommit OFF
+autoprint OFF
+autorecovery OFF
+autotrace OFF
+blockterminator "." (hex 2e)
+btitle OFF and is the first few characters of the next SELECT statement
+cmdsep OFF
+colinvisible OFF
+colsep " "
+compatibility version NATIVE
+concat "." (hex 2e)
+copycommit 0
+COPYTYPECHECK is ON
+define "&" (hex 26)
+describe DEPTH 1 LINENUM OFF INDENT ON
+echo OFF
+editfile "afiedt.buf"
+embedded OFF
+errorlogging is OFF
+escape OFF
+escchar OFF
+exitcommit ON
+FEEDBACK ON for 6 or more rows
+flagger OFF
+flush ON
+fullcolname OFF
+heading ON
+headsep "|" (hex 7c)
+history is OFF
+instance "local"
+linesize 80
+lno 5
+loboffset 1
+lobprefetch 0
+logsource ""
+long 80
+longchunksize 80
+markup HTML OFF HEAD "<style type='text/css'> body {font:10pt Arial,Helvetica,sans-serif; color:black; background:White;} p {font:10pt Arial,Helvetica,sans-serif; color:black; background:White;} table,tr,td {font:10pt Arial,Helvetica,sans-serif; color:Black; background:#f7f7e7; padding:0px 0px 0px 0px; margin:0px 0px 0px 0px;} th {font:bold 10pt Arial,Helvetica,sans-serif; color:#336699; background:#cccc99; padding:0px 0px 0px 0px;} h1 {font:16pt Arial,Helvetica,Geneva,sans-serif; color:#336699; background-color:White; border-bottom:1px solid #cccc99; margin-top:0pt; margin-bottom:0pt; padding:0px 0px 0px 0px;-
+} h2 {font:bold 10pt Arial,Helvetica,Geneva,sans-serif; color:#336699; background-color:White; margin-top:4pt; margin-bottom:0pt;} a {font:9pt Arial,Helvetica,sans-serif; color:#663300; background:#ffffff; margin-top:0pt; margin-bottom:0pt; vertical-align:top;}</style><title>SQL*Plus Report</title>" BODY "" TABLE "border='1' width='90%' align='center' summary='Script output'" SPOOL OFF ENTMAP ON PREFORMAT OFF
+markup CSV OFF DELIMITER , QUOTE ON
+newpage 1
+null ""
+numformat ""
+numwidth 10
+pagesize 14
+PAUSE is OFF
+pno 1
+recsep WRAP
+recsepchar " " (hex 20)
+release 1202000100
+repfooter OFF and is NULL
+repheader OFF and is NULL
+rowprefetch 1
+securedcol is OFF
+serveroutput OFF
+shiftinout INVISIBLE
+showmode OFF
+spool ON
+sqlblanklines OFF
+sqlcase MIXED
+sqlcode 0
+sqlcontinue "> "
+sqlnumber ON
+sqlpluscompatibility 12.2.0
+sqlprefix "#" (hex 23)
+sqlprompt "SQL> "
+sqlterminator ";" (hex 3b)
+statementcache is 0
+suffix "sql"
+tab ON
+termout ON
+timing OFF
+trimout ON
+trimspool OFF
+ttitle OFF and is the first few characters of the next SELECT statement
+underline "-" (hex 2d)
+USER is "ALU0101618586"
+verify ON
+wrap : lines will be wrapped
+xmloptimizationcheck OFF
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SET PAGESIZE 25
+SQL> SHOW PAGESIZE
+pagesize 25
+SQL> HELP SPOOL
+
+ SPOOL
+ -----
+
+ Stores query results in a file, or optionally sends the file to a printer.
+
+ SPO[OL] [file_name[.ext] [CRE[ATE] | REP[LACE] | APP[END]] | OFF | OUT]
+
+
+SQL> HOST LS
+
+SQL> HOST ls
+
+SQL> HOST pwd
+
+SQL> HELP RUN
+
+ RUN
+ ---
+
+ Lists and executes the most recently executed SQL command or
+ PL/SQL block which is stored in the SQL buffer. The buffer has
+ no command history list and does not record SQL*Plus commands.
+
+ R[UN]
+
+
+SQL> HELP
+
+ HELP
+ ----
+
+ Accesses this command line help system. Enter HELP INDEX or ? INDEX
+ for a list of topics.
+
+ You can view SQL*Plus resources at
+     http://www.oracle.com/technology/documentation/
+
+ ******************************************************************************
+ **  Top 12.2 features:                                                      **
+ **    - Fast retrieval of data as CSV for use in applications like          **
+ **      SQL*Loader. Use SQLPLUS -M "CSV ON" or SET MARKUP CSV ON            **
+ **    - Improved defaults and optimizations for reports. Use SQLPLUS -F     **
+ **    - Command recall. Use SET HISTORY ON and HISTORY to list previous     **
+ **      commands.                                                           **
+ ******************************************************************************
+
+ HELP|? [topic]
+
+
+SQL> HOST
+
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> SPOOL OFF
+SQL> UNDEFINE jugador
+SQL> DEFINE jugador = 'Goorgelas'
+SQL> DEFINE jugador
+DEFINE JUGADOR         = "Goorgelas" (CHAR)
+SQL> DEFINE
+DEFINE _DATE           = "16-NOV-25" (CHAR)
+DEFINE _CONNECT_IDENTIFIER = "ORCLPDB1" (CHAR)
+DEFINE _USER           = "ALU0101618586" (CHAR)
+DEFINE _PRIVILEGE      = "" (CHAR)
+DEFINE _SQLPLUS_RELEASE = "1202000100" (CHAR)
+DEFINE _EDITOR         = "vi" (CHAR)
+DEFINE _O_VERSION      = "Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production" (CHAR)
+DEFINE _O_RELEASE      = "1202000100" (CHAR)
+DEFINE JUGADOR         = "Goorgelas" (CHAR)
+SQL> DEFINE suma = 3+3
+SQL> DEFINE suma
+DEFINE SUMA            = "3+3" (CHAR)
+SQL> UNDEFINE SUMA
+SQL> UNDEFINE suma
+SQL> UNDEFINE jugador
+SQL> DEFINE jugaor
+SP2-0135: symbol jugaor is UNDEFINED
+SQL> DEFINE jugador
+SP2-0135: symbol jugador is UNDEFINED
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> ACCEPT numero_favorito NUMBER PROMPT 'Introduzca su numero favorito: '
+Introduzca su numero favorito: 97
+SQL> DEFINE numero_favorito
+DEFINE NUMERO_FAVORITO =         97 (NUMBER)
+SQL> SELECT *
+  2  FROM &dual
+  3  ;
+Enter value for dual: DUAL
+old   2: FROM &dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SELECT *
+  2  FROM &dual;
+Enter value for dual: DUAL
+old   2: FROM &dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SELECT *
+  2  FROM &&dual;
+Enter value for dual: DUAL
+old   2: FROM &&dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SELECT *
+  2  FROM &&dual;
+old   2: FROM &&dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> SELECT *
+  2  FROM &&dual;
+old   2: FROM &&dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEFINE dual
+DEFINE DUAL            = "DUAL" (CHAR)
+SQL> UNDEFINE dual
+SQL> SELECT *
+  2  FROM &dual
+  3  
+SQL> SELECT *
+  2  FROM &dual;
+Enter value for dual: DUAL
+old   2: FROM &dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEFINE dual
+SP2-0135: symbol dual is UNDEFINED
+SQL> SELECT *
+  2  FROM &&dual;
+Enter value for dual: DUAL
+old   2: FROM &&dual
+new   2: FROM DUAL
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> DEFINE dual
+DEFINE DUAL            = "DUAL" (CHAR)
+SQL> VARIABLE
+SP2-0568: No bind variables declared.
+SQL> VARIABLE nombre = 'hola'
+SP2-0552: Bind variable "nombre" not declared.
+SQL> VARIABLE nombre CHAR(4) = 'hola'
+SQL> VARIABLE
+variable   nombre
+datatype   CHAR(4)
+SQL> VARIABLE nombre
+variable   nombre
+datatype   CHAR(4)
+SQL> PRINT nombre
+
+NOMBRE                                                                          
+--------------------------------                                                
+hola                                                                            
+
+SQL> PRINT nombre
+
+NOMBRE                                                                          
+--------------------------------                                                
+hola                                                                            
+
+SQL> PAUSE
+
+SQL> PAUSE Esto es una pausa
+Esto es una pausa
+
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> DEFINE nombre2
+SP2-0135: symbol nombre2 is UNDEFINED
+SQL> DEFINE nombre2 'ha'
+SP2-0136: DEFINE requires an equal sign (=)
+SQL> DEFINE nombre2 = 'ha'
+SQL> PRINT nombre2
+SP2-0552: Bind variable "NOMBRE2" not declared.
+SQL> VARIABLE nombre CHAR(4) = 'hola'
+SQL> VARIABLE SALUDO CHAR(4) = 'hola'
+SQL> VARIABLE NOMBRE CHAR = 'ha'
+SP2-0631: String beginning "ha" is too long
+SQL> VARIABLE NOMBRE CHAR = 'h'
+SQL> VARIABLE NOMBRE CHAR(9) = 'Goorgelas'
+SQL> VARIABLE
+variable   nombre
+datatype   CHAR(9)
+
+variable   saludo
+datatype   CHAR(4)
+SQL> PRINT
+
+NOMBRE                                                                          
+--------------------------------                                                
+Goorgelas                                                                       
+
+
+SALUDO                                                                          
+--------------------------------                                                
+hola                                                                            
+
+SQL> PRINT nombre
+
+NOMBRE                                                                          
+--------------------------------                                                
+Goorgelas                                                                       
+
+SQL> PROMPT
+
+SQL> PROMPT hola
+hola
+SQL> PROMPT Esto es un mensaje informativo
+Esto es un mensaje informativo
+SQL> VARIABLE
+variable   nombre
+datatype   CHAR(9)
+
+variable   saludo
+datatype   CHAR(4)
+SQL> TTITLE TITULO SUPERIOR
+SQL> TTITLE TITULO SUPERIOR DE &jugador
+Enter value for jugador: Goorgelas
+SQL> TTITLE TITULO SUPERIOR DE &&jugador
+Enter value for jugador: Goorgelas
+SQL> TTITLE TITULO SUPERIOR DE &&jugador
+SQL> TTITLE TITULO SUPERIOR PATROCINADO POR &&jugador
+SQL> DEFINE test = 'a'
+SQL> TTITLE TITULO SUPERIOR PATROCINADO POR &&test
+SQL> TTITLE TITULO SUPERIOR PATROCINADO POR &&jugador
+SQL> BTITLE PIE DE PAGINA PATROCINADO POR &&jugador
+SQL> BTITLE PIE DE PAGINA
+SQL> BTITLE PIE DE PAGINA PATROCINADO POR &&jugador
+SQL> SELECT *
+  2  FROM DUAL;
+
+TITULOSUPERIORPATROCINADOPORGoorgelas                                           
+D                                                                               
+-                                                                               
+X                                                                               
+
+
+
+
+
+
+
+
+PIEDEPAGINAPATROCINADOPORGoorgelas                                              
+
+SQL> BTITLE 'PIE DE PAGINA PATROCINADO POR &&jugador'
+SQL> SELECT *
+  2  FROM DUAL;
+
+TITULOSUPERIORPATROCINADOPORGoorgelas                                           
+D                                                                               
+-                                                                               
+X                                                                               
+
+
+
+
+
+
+
+
+                    PIE DE PAGINA PATROCINADO POR Goorgelas
+
+SQL> TTITLE 'TITULO SUPERIOR PATROCINADO POR &&jugador'
+SQL> BTITLE 'PIE DE PAGINA'
+SQL> TTITLE 'TITULO SUPERIOR'
+SQL> SELECT *
+  2  FROM DUAL;
+
+Sun Nov 16                                                             page    1
+                                TITULO SUPERIOR
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+
+
+
+
+
+                                 PIE DE PAGINA
+
+SQL> TTITLE 'TITULO SUPERIOR PATROCINADO POR &&jugador'
+SQL> BTITLE 'PIE DE PAGINA PATROCINADO POR &&jugador'
+SQL> SELECT *
+  2  FROM DUAL;
+
+Sun Nov 16                                                             page    1
+                   TITULO SUPERIOR PATROCINADO POR Goorgelas
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+
+
+
+
+
+                    PIE DE PAGINA PATROCINADO POR Goorgelas
+
+SQL> HELP COLUMN
+
+ COLUMN
+ ------
+
+ Specifies display attributes for a given column, such as:
+     - text for the column heading
+     - alignment for the column heading
+     - format for NUMBER data
+     - wrapping of column data
+ Also lists the current display attributes for a single column
+ or all columns.
+
+ COL[UMN] [{column | expr} [option ...] ]
+
+ where option represents one of the following clauses:
+     ALI[AS] alias
+     CLE[AR]
+     ENTMAP {ON|OFF}
+     FOLD_A[FTER]
+     FOLD_B[EFORE]
+     FOR[MAT] format
+     HEA[DING] text
+     JUS[TIFY] {L[EFT] | C[ENTER] | R[IGHT]}
+     LIKE {expr | alias}
+     NEWL[INE]
+     NEW_V[ALUE] variable
+     NOPRI[NT] | PRI[NT]
+     NUL[L] text
+     OLD_V[ALUE] variable
+     ON|OFF
+     WRA[PPED] | WOR[D_WRAPPED] | TRU[NCATED]
+
+
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
+SQL> COLUMN dni HEADING 'DNI' FORMAT A12
+SQL> SPOOL
+currently spooling to P1.lst
+SQL> SPOOL OFF
