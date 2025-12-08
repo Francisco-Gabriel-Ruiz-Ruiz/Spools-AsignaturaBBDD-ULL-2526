@@ -1,0 +1,490 @@
+SQL> REM >>>>>>>>>> 1 <<<<<<<<<<
+SQL> SELECT SYSDATE
+  2  FROM DUAL;
+
+SYSDATE                                                                         
+---------                                                                       
+07-DEC-25                                                                       
+
+SQL> REM >>>>>>>>>> 2 <<<<<<<<<<
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS') AS HORA
+  2  FROM DUAL;
+
+HORA                                                                            
+--------                                                                        
+22:07:39                                                                        
+
+SQL> REM >>>>>>>>>> 3 (ingles) <<<<<<<<<<
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY DD "de" MONTH YYYY') AS FECHA
+  2  FROM DUAL;
+
+FECHA                                                                           
+--------------------------------------------------------------------------------
+SUNDAY    07 de DECEMBER  2025                                                  
+
+SQL> REM >>>>>>>>>> 3 (espagnol) <<<<<<<<<<
+SQL> SELECT TO_CHAR(SYSDATE, 'FMDay DD "de" Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH') AS FECHA
+  2  FROM DUAL;
+
+FECHA                                                                           
+--------------------------------------------------------------------------------
+Domingo 7 de Diciembre 2025                                                     
+
+SQL> REM >>>>>>>>>> 4 <<<<<<<<<<
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS') AS HORA_24
+  2  FROM DUAL;
+
+HORA_24                                                                         
+--------                                                                        
+22:08:42                                                                        
+
+SQL> REM >>>>>>>>>> 5 <<<<<<<<<<
+SQL> SELECT NVL(FF,SYSDATE) - FI AS "DIAS IMPARTIDOS"
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=8888 AND CAS=11;
+
+DIAS IMPARTIDOS                                                                 
+---------------                                                                 
+     5941.92432                                                                 
+
+SQL> REM >>>>>>>>>> 6 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE PROFESOR.DNI IN (SELECT PLAN_DOCENTE.DNI
+  4                         FROM PLAN_DOCENTE
+  5                         WHERE (NVL(FF,SYSDATE) - FI) > 365);
+
+P                                                                               
+------------------------------------------------------------                    
+JUAN                                                                            
+CARLOS                                                                          
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+CARMEN                                                                          
+MARIO                                                                           
+FRANCISCO                                                                       
+ANGELA                                                                          
+DAVID                                                                           
+SOLEDAD                                                                         
+
+P                                                                               
+------------------------------------------------------------                    
+JOSE MANUEL                                                                     
+
+12 rows selected.
+
+SQL> SET PAGESIZE 25
+SQL> SET LINESIZE 200
+SQL> REM >>>>>>>>>> 6 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE PROFESOR.DNI IN (SELECT PLAN_DOCENTE.DNI
+  4                         FROM PLAN_DOCENTE
+  5                         WHERE (NVL(FF,SYSDATE) - FI) > 365);
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+JUAN                                                                                                                                                                                                    
+CARLOS                                                                                                                                                                                                  
+PEDRO                                                                                                                                                                                                   
+MARIA                                                                                                                                                                                                   
+IVAN                                                                                                                                                                                                    
+CARMEN                                                                                                                                                                                                  
+MARIO                                                                                                                                                                                                   
+FRANCISCO                                                                                                                                                                                               
+ANGELA                                                                                                                                                                                                  
+DAVID                                                                                                                                                                                                   
+SOLEDAD                                                                                                                                                                                                 
+JOSE MANUEL                                                                                                                                                                                             
+
+12 rows selected.
+
+SQL> REM Comprobemos si la formula esta bien, buscando profesores que lleven dando clase mas de 5 agnos. La unica profesora que no cumple es CARMEN, porque termino de dar clase. El resto siguen activos. Veamos:
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE PROFESOR.DNI IN (SELECT PLAN_DOCENTE.DNI
+  4                         FROM PLAN_DOCENTE
+  5                         WHERE (NVL(FF,SYSDATE) - FI) > 365 * 5);
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+JUAN                                                                                                                                                                                                    
+CARLOS                                                                                                                                                                                                  
+PEDRO                                                                                                                                                                                                   
+MARIA                                                                                                                                                                                                   
+IVAN                                                                                                                                                                                                    
+MARIO                                                                                                                                                                                                   
+FRANCISCO                                                                                                                                                                                               
+ANGELA                                                                                                                                                                                                  
+DAVID                                                                                                                                                                                                   
+SOLEDAD                                                                                                                                                                                                 
+JOSE MANUEL                                                                                                                                                                                             
+
+11 rows selected.
+
+SQL> REM En efecto, CARMEN no aparece.
+SQL> REM >>>>>>>>>> 7 <<<<<<<<<<
+SQL> SELECT COUNT(*)
+  2  FROM PROFESOR
+  3  
+SQL> REM >>>>>>>>>> 7 <<<<<<<<<<
+SQL> SELECT COUNT(*)
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  WHERE D='ASTROFISICA';
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> REM >>>>>>>>>> 8 <<<<<<<<<<
+SQL> SELECT D AS DEPARTAMENTO, COUNT(DNI) AS NUMERO_PROFESORES
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  ORDER BY D;
+
+DEPARTAMENTO                                                 NUMERO_PROFESORES                                                                                                                          
+------------------------------------------------------------ -----------------                                                                                                                          
+ANALISIS MATEMATICO                                                          4                                                                                                                          
+ASTROFISICA                                                                  1                                                                                                                          
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                           8                                                                                                                          
+MATEMATICA FUNDAMENTAL                                                       1                                                                                                                          
+
+SQL> SPOOL
+currently spooling to P6-Mejor.lst
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P6-Mejor.lst
+SQL> REM >>>>>>>>>> 9 <<<<<<<<<<
+SQL> SELECT COUNT(*)
+  2  FROM
+  3  
+SQL> REM >>>>>>>>>> 9 <<<<<<<<<<
+SQL> SELECT COUNT(DISTINCT T)
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN ASIGNATURA
+  3  WHERE D='ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION';
+
+COUNT(DISTINCTT)                                                                                                                                                                                        
+----------------                                                                                                                                                                                        
+               2                                                                                                                                                                                        
+
+SQL> REM >>>>>>>>>> 10 <<<<<<<<<<
+SQL> SELECT COUNT(*)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  
+SQL> REM >>>>>>>>>> 10 <<<<<<<<<<
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  WHERE A LIKE 'A%';
+WHERE A LIKE 'A%'
+      *
+ERROR at line 3:
+ORA-00904: "A": invalid identifier 
+
+
+SQL> REM >>>>>>>>>> 10 <<<<<<<<<<
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  WHERE AR LIKE 'A%';
+
+COUNT(DISTINCTDNI)                                                                                                                                                                                      
+------------------                                                                                                                                                                                      
+                 3                                                                                                                                                                                      
+
+SQL> REM >>>>>>>>>> 10 <<<<<<<<<<
+SQL> SELECT COUNT (*)
+  2  
+SQL> REM >>>>>>>>>> 10 (con distinct dni) <<<<<<<<<<
+SQL> SELECT COUNT (DISTINCT DNI)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  WHERE AR LIKE 'A%';
+
+COUNT(DISTINCTDNI)                                                                                                                                                                                      
+------------------                                                                                                                                                                                      
+                 3                                                                                                                                                                                      
+
+SQL> REM >>>>>>>>>> 10 (con *) <<<<<<<<<<
+SQL> SELECT COUNT (*)
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  WHERE AR LIKE 'A%';
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+
+SQL> REM Igual porque un profesor solo puede estar adscrito a una sola area
+SQL> REM >>>>>>>>>> 11 <<<<<<<<<<
+SQL> SELECT T AS TITULACION, COUNT(DISTINCT CAS)
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T, CAS;
+ORDER BY T, CAS
+            *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> REM >>>>>>>>>> 11 <<<<<<<<<<
+SQL> SELECT T AS TITULACION, COUNT(DISTINCT CAS)
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T;
+
+TITU COUNT(DISTINCTCAS)                                                                                                                                                                                 
+---- ------------------                                                                                                                                                                                 
+GF                    1                                                                                                                                                                                 
+GII                   7                                                                                                                                                                                 
+GM                    2                                                                                                                                                                                 
+MII                   2                                                                                                                                                                                 
+
+SQL> REM >>>>>>>>>> 11 (con alias mejor) <<<<<<<<<<
+SQL> SELECT T AS TITULACION, COUNT(DISTINCT CAS) AS NUMERO_ASIGNATUAS
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T;
+
+TITU NUMERO_ASIGNATUAS                                                                                                                                                                                  
+---- -----------------                                                                                                                                                                                  
+GF                   1                                                                                                                                                                                  
+GII                  7                                                                                                                                                                                  
+GM                   2                                                                                                                                                                                  
+MII                  2                                                                                                                                                                                  
+
+SQL> SELECT T AS TIT, COUNT(DISTINCT CAS) AS NUMERO_ASIGNATUAS
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T;
+
+TIT  NUMERO_ASIGNATUAS                                                                                                                                                                                  
+---- -----------------                                                                                                                                                                                  
+GF                   1                                                                                                                                                                                  
+GII                  7                                                                                                                                                                                  
+GM                   2                                                                                                                                                                                  
+MII                  2                                                                                                                                                                                  
+
+SQL> REM >>>>>>>>>> 12 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT = (SELECT MAX(CT)
+  4              FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+DIDACTICA DE LA MATEMATICA                                                                                                                                                                              
+
+SQL> REM >>>>>>>>>> 13 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT = (SELECT MIN(CT)
+  4              FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                                                                                                 
+ALMACENES DE DATOS                                                                                                                                                                                      
+MINERIA DE DATOS                                                                                                                                                                                        
+
+SQL> REM >>>>>>>>>> 14 <<<<<<<<<<
+SQL> SELECT A, (CT + CP + CL) AS TOTAL_CREDITOS
+  2  FROM ASIGNATURA;
+
+A                                                  TOTAL_CREDITOS                                                                                                                                       
+-------------------------------------------------- --------------                                                                                                                                       
+BASES DE DATOS                                                  6                                                                                                                                       
+INTELIGENCIA ARTIFICIAL                                         6                                                                                                                                       
+ALMACENES DE DATOS                                              3                                                                                                                                       
+MINERIA DE DATOS                                                3                                                                                                                                       
+INFORMATICA BASICA                                              6                                                                                                                                       
+ALGEBRA                                                         6                                                                                                                                       
+CALCULO                                                         6                                                                                                                                       
+OPTIMIZACION                                                    6                                                                                                                                       
+GESTION DE RIESGOS                                              6                                                                                                                                       
+ASTRONOMIA                                                      6                                                                                                                                       
+DIDACTICA DE LA MATEMATICA                                      6                                                                                                                                       
+ANALISIS COMPLEJO                                             7.5                                                                                                                                       
+
+12 rows selected.
+
+SQL> SPOOL
+currently spooling to P6-Mejor.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 15 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE (CT + CP + CL) = (SELECT MAX(CT + CP +CL)
+  4                          FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+ANALISIS COMPLEJO                                                                                                                                                                                       
+
+SQL> REM >>>>>>>>>> 16 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE (CT + CP + CL) = (SELECT MIN(CT + CP +CL)
+  4                          FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+ALMACENES DE DATOS                                                                                                                                                                                      
+MINERIA DE DATOS                                                                                                                                                                                        
+
+SQL> REM >>>>>>>>>> 17 <<<<<<<<<<
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  WHERE (CT + CP + CL) = (SELECT MAX(CT + CP +CL)
+  4                          FROM ASIGNATURA);
+
+AR                                                                                                                                                                                                      
+------------------------------------------------------------                                                                                                                                            
+ANALISIS MATEMATICO                                                                                                                                                                                     
+
+SQL> REM >>>>>>>>>> 18 <<<<<<<<<<
+SQL> SELECT COUNT(DISTINCT CAS)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111;
+
+COUNT(DISTINCTCAS)                                                                                                                                                                                      
+------------------                                                                                                                                                                                      
+                 1                                                                                                                                                                                      
+
+SQL> REM >>>>>>>>>> 19 <<<<<<<<<<
+SQL> SELECT SUM(CTA + CPA + CLA)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111;
+
+SUM(CTA+CPA+CLA)                                                                                                                                                                                        
+----------------                                                                                                                                                                                        
+               9                                                                                                                                                                                        
+
+SQL> REM Asumimos que se quieren todos los planes docentes del profesor, incluyendo tanto los pasados como actuales
+SQL> REM >>>>>>>>>> 20 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL
+  4  GROUP BY P
+  5  HAVING SUM(CTA + CPA + CLA) = (SELECT SUM(CTA + CPA + CLA)
+  6                                 FROM PLAN_DOCENTE
+  7                                 WHERE FF IS NULL
+  8                                 GROUP BY DNI);
+HAVING SUM(CTA + CPA + CLA) = (SELECT SUM(CTA + CPA + CLA)
+                               *
+ERROR at line 5:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL
+  4  GROUP BY P
+  5  HAVING SUM(CTA + CPA + CLA) = (SELECT MAX(SUM(CTA + CPA + CLA))
+  6                                 FROM PLAN_DOCENTE
+  7                                 WHERE FF IS NULL
+  8                                 GROUP BY DNI);
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+PEDRO                                                                                                                                                                                                   
+MARIA                                                                                                                                                                                                   
+
+SQL> REM >>>>>>>>>> 21 <<<<<<<<<<
+SQL> SELECT AVG(COUNT(CAS))
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY CAR;
+
+AVG(COUNT(CAS))                                                                                                                                                                                         
+---------------                                                                                                                                                                                         
+            1.5                                                                                                                                                                                         
+
+SQL> SELECT AVG(NUMERO_ASIGNATURAS)
+  2  FROM (SELECT AR, COUNT(DISTINCT CAS) AS NUMERO_ASIGNATURAS
+  3        FROM AREA NATURAL JOIN ASIGNATURA
+  4        GROUP BY CAR);
+FROM (SELECT AR, COUNT(DISTINCT CAS) AS NUMERO_ASIGNATURAS
+             *
+ERROR at line 2:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT AVG(NUMERO_ASIGNATURAS)
+  2  FROM (SELECT CAR, COUNT(DISTINCT CAS) AS NUMERO_ASIGNATURAS
+  3        FROM AREA NATURAL JOIN ASIGNATURA
+  4        GROUP BY CAR);
+
+AVG(NUMERO_ASIGNATURAS)                                                                                                                                                                                 
+-----------------------                                                                                                                                                                                 
+                    1.5                                                                                                                                                                                 
+
+SQL> REM AVG calcula la media del campo NUMERO_ASIGNATURAS que devuelve la subconsulta
+SQL> REM La primera no es estandar en SQL parece, mejor no la uso pero el invento parece que funciona
+SQL> REM >>>>>>>>>> 22 <<<<<<<<<<
+SQL> SELECT AVG(NUMERO_PROFESORES)
+  2  FROM (SELECT D, COUNT(DISTINCT DNI) AS NUMERO_PROFESORES
+  3        FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  4        GROUP BY D);
+
+AVG(NUMERO_PROFESORES)                                                                                                                                                                                  
+----------------------                                                                                                                                                                                  
+                   3.5                                                                                                                                                                                  
+
+SQL> SPOOL
+currently spooling to P6-Mejor.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 23 <<<<<<<<<<
+SQL> SELECT AR
+  2  FROM AREA
+  3  
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR
+  4  HAVING(COUNT(DISTINCT CAS) > 3));
+HAVING(COUNT(DISTINCT CAS) > 3))
+                               *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR
+  4  HAVING(COUNT(DISTINCT CAS) > 3);
+
+AR                                                                                                                                                                                                      
+------------------------------------------------------------                                                                                                                                            
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                                                                                                       
+
+SQL> REM >>>>>>>>>> 24 <<<<<<<<<<
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR
+  4  HAVING(COUNT(DISTINCT CAS) > 6);
+
+no rows selected
+
+SQL> REM >>>>>>>>>> 25 <<<<<<<<<<
+SQL> SELECT D
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  HAVING SUM(DISTINCT DNI) = (SELECT MAX(SUM(DISTINCT(DNI)))
+  5                              FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  6                              GROUP BY D);
+
+D                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+ANALISIS MATEMATICO                                                                                                                                                                                     
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  HAVING COUNT(DISTINCT DNI) = (SELECT MIN(COUNT(DISTINCT(DNI)))
+  5                              FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  6                              GROUP BY D);
+
+D                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+ASTROFISICA                                                                                                                                                                                             
+MATEMATICA FUNDAMENTAL                                                                                                                                                                                  
+
+SQL> SPOOL
+currently spooling to P6-Mejor.lst
+SQL> SPOOL OFF
