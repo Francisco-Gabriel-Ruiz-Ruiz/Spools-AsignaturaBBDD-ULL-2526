@@ -867,3 +867,32 @@ SQL> REM El 22 bien hecho (comprobamos ahora si que la asignatura se haya impart
 SQL> SPOOL
 currently spooling to P5.lst
 SQL> SPOOL OFF
+SQL> REM Vamos a hacer el 25 con natural join en vez de cross, porque es lo que nos pide el guion en general
+SQL> REM >>>>>>>>>> 25 (con natural join) <<<<<<<<<<
+SQL> SELECT D "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  ORDER BY D, P;
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANGELA                                                                                                                                     
+ANALISIS MATEMATICO                                          CARINA                                                                                                                                     
+ANALISIS MATEMATICO                                          FRANCISCO                                                                                                                                  
+ANALISIS MATEMATICO                                          MARIO                                                                                                                                      
+ASTROFISICA                                                  CARMEN                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARLOS                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARMELO                                                                                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           DAVID                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JOSE MANUEL                                                                                                                                
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JUAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIA                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           PEDRO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           SOLEDAD                                                                                                                                    
+MATEMATICA FUNDAMENTAL                                       IVAN                                                                                                                                       
+
+14 rows selected.
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> REM Aparece Carina y Carmelo porque esta correccion la estoy haciendo despues de haber hecho la practica 7. En el informe, he modificado la salida (eliminando sus dos filas) para que no aparezca.
+SQL> SPOOL OFF

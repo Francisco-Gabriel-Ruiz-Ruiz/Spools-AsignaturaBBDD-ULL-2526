@@ -919,3 +919,23 @@ SQL> SELECT DNI
 SQL> SPOOL
 currently spooling to P4.lst
 SQL> SPOOL OFF
+SQL> REM Vamos a hacer el 10 bien, porque no me di cuenta de que devolvi DNIs en vez del nombre
+SQL> REM >>>>>>>>>> 10 (bien hecho) <<<<<<<<<<
+SQL> SELECT UNIQUE P
+  2  FROM PROFESOR
+  3  WHERE CAR=7;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+CARMELO                                                                                                                                                                                                 
+SOLEDAD                                                                                                                                                                                                 
+CARLOS                                                                                                                                                                                                  
+MARIA                                                                                                                                                                                                   
+
+SQL> SPOOL
+currently spooling to P4.lst
+SQL> SPOOL OFF
+SQL> REM Aparece Carmelo porque esta correccion la estoy haciendo despues de haber hecho la practica 7. En el informe, he modificado la salida (eliminando su fila) para que no aparezca.
+SQL> SPOOL
+currently spooling to P4.lst
+SQL> SPOOL OFF
