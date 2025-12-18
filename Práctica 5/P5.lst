@@ -1,0 +1,898 @@
+SQL> REM >>>>>>>>>> 1 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE AR LIKE 'A%');
+
+A                                                                               
+--------------------------------------------------                              
+ALGEBRA                                                                         
+ANALISIS COMPLEJO                                                               
+ASTRONOMIA                                                                      
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> REM >>>>>>>>>> 2 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE AR LIKE '%A');
+
+A                                                                               
+--------------------------------------------------                              
+ALGEBRA                                                                         
+ASTRONOMIA                                                                      
+DIDACTICA DE LA MATEMATICA                                                      
+OPTIMIZACION                                                                    
+CALCULO                                                                         
+
+SQL> REM >>>>>>>>>> 3 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE A LIKE '% DATOS %'
+  4     OR A LIKE 'DATOS %'
+  5     OR A LIKE '% DATOS';
+
+A                                                                               
+--------------------------------------------------                              
+BASES DE DATOS                                                                  
+ALMACENES DE DATOS                                                              
+MINERIA DE DATOS                                                                
+
+SQL> REM >>>>>>>>>> 3 <<<<<<<<<<
+SQL> REM >>>>>>>>>> 4 <<<<<<<<<<
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '__R%';
+
+       DNI                                                                      
+----------                                                                      
+      2222                                                                      
+      4444                                                                      
+      6666                                                                      
+      7777                                                                      
+
+SQL> REM >>>>>>>>>> 5 <<<<<<<<<<
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '_____'
+  4     OR P LIKE '____'
+  5     OR P LIKE '___'
+  6     OR P LIKE '__'
+  7     OR P LIKE '_';
+
+       DNI                                                                      
+----------                                                                      
+      1111                                                                      
+      3333                                                                      
+      4444                                                                      
+      5555                                                                      
+      7777                                                                      
+      1010                                                                      
+
+6 rows selected.
+
+SQL> REM >>>>>>>>>> 6 <<<<<<<<<<
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '_____%';
+
+       DNI                                                                      
+----------                                                                      
+      2222                                                                      
+      3333                                                                      
+      4444                                                                      
+      6666                                                                      
+      7777                                                                      
+      8888                                                                      
+      9999                                                                      
+      1010                                                                      
+      2020                                                                      
+      3030                                                                      
+
+10 rows selected.
+
+SQL> REM >>>>>>>>>> 5 (sin contar duplicados) <<<<<<<<<<
+SQL> SELECT UNIQUE DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '_____'
+  4     OR P LIKE '____'
+  5     OR P LIKE '___'
+  6     OR P LIKE '__'
+  7     OR P LIKE '_';
+
+       DNI                                                                      
+----------                                                                      
+      1111                                                                      
+      3333                                                                      
+      4444                                                                      
+      5555                                                                      
+      7777                                                                      
+      1010                                                                      
+
+6 rows selected.
+
+SQL> REM >>>>>>>>>> 6 (sin contar duplicados) <<<<<<<<<<
+SQL> SELECT UNIQUE DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '_____%';
+
+       DNI                                                                      
+----------                                                                      
+      2222                                                                      
+      3333                                                                      
+      4444                                                                      
+      6666                                                                      
+      7777                                                                      
+      8888                                                                      
+      9999                                                                      
+      1010                                                                      
+      2020                                                                      
+      3030                                                                      
+
+10 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT UNIQUE DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE FF IS NULL);
+
+P                                                                               
+------------------------------------------------------------                    
+DAVID                                                                           
+JUAN                                                                            
+SOLEDAD                                                                         
+CARLOS                                                                          
+JOSE MANUEL                                                                     
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+MARIO                                                                           
+FRANCISCO                                                                       
+ANGELA                                                                          
+
+11 rows selected.
+
+SQL> REM Aunque IN seleccione un solo elemento a pesar de que este duplicado en el conjuto que analiza, igualmente filtramos de antemano los DNIs en la proyeccion de PLAN_DOCENTE, tal que permitamos que dos profesores que tengan mismo nombre aparezcan, pero evitemos que un mismo profesor salga dos veces. El IN ya nos lo asegura, pero con el UNIQUE lo hacemos mas legible.
+SQL> REM >>>>>>>>>> 7 (es la consulta superior) <<<<<<<<<<
+SQL> REM >>>>>>>>>> 8 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT UNIQUE DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE CAS=8);
+
+P                                                                               
+------------------------------------------------------------                    
+JUAN                                                                            
+JOSE MANUEL                                                                     
+
+SQL> REM >>>>>>>>>> 9 <<<<<<<<<<
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE
+  3  ORDER BY FF;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07      
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08      
+      1010          9          3          0          3 01-SEP-08 31-AUG-09      
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09      
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10      
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11      
+      1010          9        1.5          0        1.5 01-SEP-09                
+      9999          7          3          3          0 01-SEP-10                
+      5555          6          3          3          0 31-MAR-10                
+      8888         11          6          0          0 01-SEP-09                
+      2020          3        1.5          0        1.5 01-SEP-08                
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      7777         12        4.5          3          0 01-SEP-10                
+      3333          9        1.5          0        1.5 01-SEP-09                
+      2222          4        1.5          0        1.5 01-SEP-09                
+      3030          8          0        1.5        1.5 01-SEP-09                
+      1111          8          3          0          0 01-SEP-09                
+      4444          5          3          0          0 01-SEP-10                
+      4444          1          3        1.5        1.5 01-SEP-11                
+      3333          2        1.5        1.5          3 01-SEP-08                
+
+19 rows selected.
+
+SQL> REM Order By ordena ascendentemente por defecto
+SQL> REM >>>>>>>>>> 10 <<<<<<<<<<
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE
+  3  ORDER BY FF DESC;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      4444          1          3        1.5        1.5 01-SEP-11                
+      3333          2        1.5        1.5          3 01-SEP-08                
+      7777         12        4.5          3          0 01-SEP-10                
+      2020          3        1.5          0        1.5 01-SEP-08                
+      8888         11          6          0          0 01-SEP-09                
+      5555          6          3          3          0 31-MAR-10                
+      9999          7          3          3          0 01-SEP-10                
+      4444          5          3          0          0 01-SEP-10                
+      1111          8          3          0          0 01-SEP-09                
+      3030          8          0        1.5        1.5 01-SEP-09                
+      2222          4        1.5          0        1.5 01-SEP-09                
+
+       DNI        CAS        CTA        CPA        CLA FI        FF             
+---------- ---------- ---------- ---------- ---------- --------- ---------      
+      3333          9        1.5          0        1.5 01-SEP-09                
+      1010          9        1.5          0        1.5 01-SEP-09                
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11      
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10      
+      1010          9          3          0          3 01-SEP-08 31-AUG-09      
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09      
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08      
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07      
+
+19 rows selected.
+
+SQL> REM >>>>>>>>>> 11 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE CAS IN (SELECT CAS
+  6                              FROM ASIGNATURA
+  7                              WHERE A='OPTIMIZACION' AND T='GII'));
+
+P                                                                               
+------------------------------------------------------------                    
+JUAN                                                                            
+JOSE MANUEL                                                                     
+
+SQL> REM En vez de buscar directamente mediante el campo CAS, lo hacemos por el del nombre de la asignatura (A), ya que interpretamos del enunciado que eso es lo que quiere
+SQL> REM >>>>>>>>>> 12 <<<<<<<<<<
+SQL> REM >>>>>>>>>> 11 (ordenados ascendentemente) <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE CAS IN (SELECT CAS
+  6                              FROM ASIGNATURA
+  7                              WHERE A='OPTIMIZACION' AND T='GII'))
+  8  ORDER BY P;
+
+P                                                                               
+------------------------------------------------------------                    
+JOSE MANUEL                                                                     
+JUAN                                                                            
+
+SQL> REM En vez de buscar directamente mediante el campo CAS, lo hacemos por el del nombre de la asignatura (A), ya que interpretamos del enunciado que eso es lo que quiere
+SQL> REM >>>>>>>>>> 12 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE CD IN (SELECT CD
+  6                             FROM DEPARTAMENTO
+  7                             WHERE D='MATEMATICA FUNDAMENTAL'));
+
+P                                                                               
+------------------------------------------------------------                    
+IVAN                                                                            
+
+SQL> REM >>>>>>>>>> 12 (ordenado descendentemente) <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE CD IN (SELECT CD
+  6                             FROM DEPARTAMENTO
+  7                             WHERE D='MATEMATICA FUNDAMENTAL'))
+  8  ORDER BY P DESC;
+
+P                                                                               
+------------------------------------------------------------                    
+IVAN                                                                            
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN (SELECT CAS
+  4                FROM PLAN_DOCENTE
+  5                WHERE DNI=1010);
+
+A                                                                               
+--------------------------------------------------                              
+INTELIGENCIA ARTIFICIAL                                                         
+GESTION DE RIESGOS                                                              
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN (SELECT UNIQUE CAS
+  4                FROM PLAN_DOCENTE
+  5                WHERE DNI=1010);
+
+A                                                                               
+--------------------------------------------------                              
+INTELIGENCIA ARTIFICIAL                                                         
+GESTION DE RIESGOS                                                              
+
+SQL> SELECT A
+  2  
+SQL> REM >>>>>>>>>> 13 (la consulta de arriba) <<<<<<<<<<
+SQL> REM >>>>>>>>>> 14 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN (SELECT CAS
+  4                FROM PLAN_DOCENTE
+  5                WHERE DNI IN (SELECT DNI
+  6                              FROM PROFESOR
+  7                              WHERE P='DAVID'));
+
+A                                                                               
+--------------------------------------------------                              
+INTELIGENCIA ARTIFICIAL                                                         
+GESTION DE RIESGOS                                                              
+
+SQL> REM >>>>>>>>>> 15 <<<<<<<<<<
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 15 <<<<<<<<<<
+SQL> SELECT AR
+  2  FROM AREA
+  3  WHERE CD IN (SELECT CD
+  4               FROM DEPARTAMENTO
+  5               WHERE D='ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION');
+
+AR                                                                              
+------------------------------------------------------------                    
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                            
+ESTADISTICA E INVESTIGACION OPERATIVA                                           
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+
+SQL> REM >>>>>>>>>> 16 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN (SELECT CAS
+  4                FROM PLAN_DOCENTE
+  5                WHERE FF IS NULL AND DNI IN (SELECT DNI
+  6                                             FROM PROFESOR
+  7                                             WHERE CAT='CU'));
+
+A                                                                               
+--------------------------------------------------                              
+OPTIMIZACION                                                                    
+ALMACENES DE DATOS                                                              
+
+SQL> REM >>>>>>>>>> 17 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE NOT EXISTS (SELECT CAS
+  4                    FROM PLAN_DOCENTE
+  5                    WHERE ASIGNATURA.CAS=PLAN_DOCENTE.CAS AND DNI IN (SELECT DNI
+  6                                                                      FROM PROFESOR
+  7                                                                      WHERE NOT CAT='CU'));
+
+no rows selected
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> REM >>>>>>>>>> 18 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE AR='LENGUAJES Y SISTEMAS INFORMATICOS' OR AR='CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL');
+
+A                                                                               
+--------------------------------------------------                              
+GESTION DE RIESGOS                                                              
+INTELIGENCIA ARTIFICIAL                                                         
+INFORMATICA BASICA                                                              
+MINERIA DE DATOS                                                                
+ALMACENES DE DATOS                                                              
+BASES DE DATOS                                                                  
+
+6 rows selected.
+
+SQL> REM >>>>>>>>>> 19 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE CAS IN (SELECT CAS
+  6                              FROM ASIGNATURA
+  7                              WHERE T='GII'))
+  8    AND DNI IN (SELECT DNI
+  9                FROM PLAN_DOCENTE
+ 10                WHERE CAS IN (SELECT CAS
+ 11                              FROM ASIGNATURA
+ 12                              WHERE T='MII'));
+
+P                                                                               
+------------------------------------------------------------                    
+MARIA                                                                           
+
+SQL> REM >>>>>>>>>> 19 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE CAS IN (SELECT CAS
+  6                              FROM ASIGNATURA
+  7                              WHERE T='GII' OR T='MII'));
+
+P                                                                               
+------------------------------------------------------------                    
+DAVID                                                                           
+JUAN                                                                            
+SOLEDAD                                                                         
+CARLOS                                                                          
+JOSE MANUEL                                                                     
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+ANGELA                                                                          
+
+9 rows selected.
+
+SQL> REM >>>>>>>>>> 19 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE FF IS NULL AND CAS IN (SELECT CAS
+  6                                             FROM ASIGNATURA
+  7                                             WHERE T='GII' OR T='MII'));
+
+P                                                                               
+------------------------------------------------------------                    
+DAVID                                                                           
+JUAN                                                                            
+SOLEDAD                                                                         
+CARLOS                                                                          
+JOSE MANUEL                                                                     
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+ANGELA                                                                          
+
+9 rows selected.
+
+SQL> REM >>>>>>>>>> 20 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE FF IS NULL AND CAS IN (SELECT CAS
+  6                                             FROM ASIGNATURA
+  7                                             WHERE T='GII' OR T='MII'))
+  8    AND DNI IN (SELECT DNI
+  9                FROM PLAN_DOCENTE
+ 10                WHERE FF IS NULL AND CAS IN (SELECT CAS
+ 11  
+SQL> REM >>>>>>>>>> 20 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4                FROM PLAN_DOCENTE
+  5                WHERE FF IS NULL AND CAS IN (SELECT CAS
+  6                                             FROM ASIGNATURA
+  7                                             WHERE T='GII'))
+  8    AND DNI IN (SELECT DNI
+  9                FROM PLAN_DOCENTE
+ 10                WHERE FF IS NULL AND CAS IN (SELECT CAS
+ 11                                             FROM ASIGNATURA
+ 12                                             WHERE T='MII'));
+
+no rows selected
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> REM >>>>>>>>>> 21 <<<<<<<<<<
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE NOT EXISTS (SELECT DNI
+  4                    FROM PLAN_DOCENTE
+  5                    WHERE PROFESOR.DNI=PLAN_DOCENTE.DNI AND FF IS NULL);
+
+P                                                                               
+------------------------------------------------------------                    
+CARMEN                                                                          
+
+SQL> REM >>>>>>>>>> 22 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE T='GII';
+
+A                                                                               
+--------------------------------------------------                              
+BASES DE DATOS                                                                  
+INTELIGENCIA ARTIFICIAL                                                         
+INFORMATICA BASICA                                                              
+ALGEBRA                                                                         
+CALCULO                                                                         
+OPTIMIZACION                                                                    
+GESTION DE RIESGOS                                                              
+
+7 rows selected.
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> SELECT AR 'AREA DE CONOCIMIENTO', A 'ASIGNATURA ADSCRITA'
+  2  FROM AREA NATURAL JOIN ASIGNATURA;
+SELECT AR 'AREA DE CONOCIMIENTO', A 'ASIGNATURA ADSCRITA'
+          *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT AR 'AREA DE CONOCIMIENTO', A 'ASIGNATURA ADSCRITA'
+  2  
+SQL> SELECT AR "AREA DE CONOCIMIENTO", A "ASIGNATURA ADSCRITA"
+  2  FROM AREA NATURAL JOIN ASIGNATURA;
+
+AREA DE CONOCIMIENTO                                                            
+------------------------------------------------------------                    
+ASIGNATURA ADSCRITA                                                             
+--------------------------------------------------                              
+ALGEBRA                                                                         
+ALGEBRA                                                                         
+                                                                                
+ANALISIS MATEMATICO                                                             
+ANALISIS COMPLEJO                                                               
+                                                                                
+ASTRONOMIA Y ASTROFISICA                                                        
+ASTRONOMIA                                                                      
+                                                                                
+
+AREA DE CONOCIMIENTO                                                            
+------------------------------------------------------------                    
+ASIGNATURA ADSCRITA                                                             
+--------------------------------------------------                              
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                            
+GESTION DE RIESGOS                                                              
+                                                                                
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                            
+INTELIGENCIA ARTIFICIAL                                                         
+                                                                                
+DIDACTICA DE LA MATEMATICA                                                      
+DIDACTICA DE LA MATEMATICA                                                      
+                                                                                
+
+AREA DE CONOCIMIENTO                                                            
+------------------------------------------------------------                    
+ASIGNATURA ADSCRITA                                                             
+--------------------------------------------------                              
+ESTADISTICA E INVESTIGACION OPERATIVA                                           
+OPTIMIZACION                                                                    
+                                                                                
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+INFORMATICA BASICA                                                              
+                                                                                
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+MINERIA DE DATOS                                                                
+                                                                                
+
+AREA DE CONOCIMIENTO                                                            
+------------------------------------------------------------                    
+ASIGNATURA ADSCRITA                                                             
+--------------------------------------------------                              
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+ALMACENES DE DATOS                                                              
+                                                                                
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+BASES DE DATOS                                                                  
+                                                                                
+MATEMATICA APLICADA                                                             
+CALCULO                                                                         
+                                                                                
+
+12 rows selected.
+
+SQL> SET LINESIZE 200
+SQL> SET PAGESIZE 25
+SQL> SELECT AR "AREA DE CONOCIMIENTO", A "ASIGNATURA ADSCRITA"
+  2  FROM AREA NATURAL JOIN ASIGNATURA;
+
+AREA DE CONOCIMIENTO                                         ASIGNATURA ADSCRITA                                                                                                                        
+------------------------------------------------------------ --------------------------------------------------                                                                                         
+ALGEBRA                                                      ALGEBRA                                                                                                                                    
+ANALISIS MATEMATICO                                          ANALISIS COMPLEJO                                                                                                                          
+ASTRONOMIA Y ASTROFISICA                                     ASTRONOMIA                                                                                                                                 
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         GESTION DE RIESGOS                                                                                                                         
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         INTELIGENCIA ARTIFICIAL                                                                                                                    
+DIDACTICA DE LA MATEMATICA                                   DIDACTICA DE LA MATEMATICA                                                                                                                 
+ESTADISTICA E INVESTIGACION OPERATIVA                        OPTIMIZACION                                                                                                                               
+LENGUAJES Y SISTEMAS INFORMATICOS                            INFORMATICA BASICA                                                                                                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            MINERIA DE DATOS                                                                                                                           
+LENGUAJES Y SISTEMAS INFORMATICOS                            ALMACENES DE DATOS                                                                                                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            BASES DE DATOS                                                                                                                             
+MATEMATICA APLICADA                                          CALCULO                                                                                                                                    
+
+12 rows selected.
+
+SQL> REM >>>>>>>>>> 24 <<<<<<<<<<
+SQL> SELECT AR "DEPARTAMENTO", A "AREA ADSCRITA"
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  ORDER BY AR, A;
+ORDER BY AR, A
+             *
+ERROR at line 3:
+ORA-00904: "A": invalid identifier 
+
+
+SQL> SELECT AR "DEPARTAMENTO", A "AREA ADSCRITA"
+  2  
+SQL> SELECT D "DEPARTAMENTO", AR "AREA ADSCRITA"
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  ORDER BY D, AR;
+
+DEPARTAMENTO                                                 AREA ADSCRITA                                                                                                                              
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANALISIS MATEMATICO                                                                                                                        
+ANALISIS MATEMATICO                                          DIDACTICA DE LA MATEMATICA                                                                                                                 
+ANALISIS MATEMATICO                                          MATEMATICA APLICADA                                                                                                                        
+ASTROFISICA                                                  ASTRONOMIA Y ASTROFISICA                                                                                                                   
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           ESTADISTICA E INVESTIGACION OPERATIVA                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           LENGUAJES Y SISTEMAS INFORMATICOS                                                                                                          
+MATEMATICA FUNDAMENTAL                                       ALGEBRA                                                                                                                                    
+
+8 rows selected.
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 25 <<<<<<<<<<
+SQL> SELECT AR "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO NATURAL JOIN PROFESOR
+  3  WHERE CAR IN (SELECT CAR
+  4                FROM AREA
+  5                WHERE CAR=CAR AND CD IN (SELECT CD
+  6                                         FROM DEPARTAMENTO
+  7                                         WHERE CD=CD))
+  8  
+SQL> SELECT AR "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO D1 NATURAL JOIN PROFESOR P1
+  3  
+SQL> 
+SQL> SELECT AR "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO D1 NATURAL JOIN PROFESOR
+  3  WHERE PROFESOR.CAR IN (SELECT A1.CAR
+  4                         FROM AREA A1
+  5                         WHERE PROFESOR.CAR=A1.CAR AND D1.CD IN (SELECT D2.CD
+  6                                                                 FROM DEPARTAMENTO D2
+  7                                                                 WHERE D1.CD=D2.CD))
+  8  ORDER BY AR, P;
+ORDER BY AR, P
+         *
+ERROR at line 8:
+ORA-00904: "AR": invalid identifier 
+
+
+SQL> SELECT D "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO D1 NATURAL JOIN PROFESOR
+  3  WHERE PROFESOR.CAR IN (SELECT A1.CAR
+  4                         FROM AREA A1
+  5                         WHERE PROFESOR.CAR=A1.CAR AND D1.CD IN (SELECT D2.CD
+  6                                                                 FROM DEPARTAMENTO D2
+  7                                                                 WHERE D1.CD=D2.CD))
+  8  ORDER BY D, P;
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANGELA                                                                                                                                     
+ANALISIS MATEMATICO                                          CARLOS                                                                                                                                     
+ANALISIS MATEMATICO                                          CARMEN                                                                                                                                     
+ANALISIS MATEMATICO                                          DAVID                                                                                                                                      
+ANALISIS MATEMATICO                                          FRANCISCO                                                                                                                                  
+ANALISIS MATEMATICO                                          IVAN                                                                                                                                       
+ANALISIS MATEMATICO                                          JOSE MANUEL                                                                                                                                
+ANALISIS MATEMATICO                                          JUAN                                                                                                                                       
+ANALISIS MATEMATICO                                          MARIA                                                                                                                                      
+ANALISIS MATEMATICO                                          MARIO                                                                                                                                      
+ANALISIS MATEMATICO                                          PEDRO                                                                                                                                      
+ANALISIS MATEMATICO                                          SOLEDAD                                                                                                                                    
+ASTROFISICA                                                  ANGELA                                                                                                                                     
+ASTROFISICA                                                  CARLOS                                                                                                                                     
+ASTROFISICA                                                  CARMEN                                                                                                                                     
+ASTROFISICA                                                  DAVID                                                                                                                                      
+ASTROFISICA                                                  FRANCISCO                                                                                                                                  
+ASTROFISICA                                                  IVAN                                                                                                                                       
+ASTROFISICA                                                  JOSE MANUEL                                                                                                                                
+ASTROFISICA                                                  JUAN                                                                                                                                       
+ASTROFISICA                                                  MARIA                                                                                                                                      
+ASTROFISICA                                                  MARIO                                                                                                                                      
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ASTROFISICA                                                  PEDRO                                                                                                                                      
+ASTROFISICA                                                  SOLEDAD                                                                                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           ANGELA                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARLOS                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARMEN                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           DAVID                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           FRANCISCO                                                                                                                                  
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           IVAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JOSE MANUEL                                                                                                                                
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JUAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIA                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           PEDRO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           SOLEDAD                                                                                                                                    
+MATEMATICA FUNDAMENTAL                                       ANGELA                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       CARLOS                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       CARMEN                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       DAVID                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       FRANCISCO                                                                                                                                  
+MATEMATICA FUNDAMENTAL                                       IVAN                                                                                                                                       
+MATEMATICA FUNDAMENTAL                                       JOSE MANUEL                                                                                                                                
+MATEMATICA FUNDAMENTAL                                       JUAN                                                                                                                                       
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+MATEMATICA FUNDAMENTAL                                       MARIA                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       MARIO                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       PEDRO                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       SOLEDAD                                                                                                                                    
+
+48 rows selected.
+
+SQL> SELECT D "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO D1 CROSS JOIN PROFESOR
+  3  WHERE PROFESOR.CAR IN (SELECT A1.CAR
+  4                         FROM AREA A1
+  5                         WHERE PROFESOR.CAR=A1.CAR AND D1.CD IN (SELECT D2.CD
+  6                                                                 FROM DEPARTAMENTO D2
+  7                                                                 WHERE D1.CD=D2.CD))
+  8  ORDER BY D, P;
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANGELA                                                                                                                                     
+ANALISIS MATEMATICO                                          CARLOS                                                                                                                                     
+ANALISIS MATEMATICO                                          CARMEN                                                                                                                                     
+ANALISIS MATEMATICO                                          DAVID                                                                                                                                      
+ANALISIS MATEMATICO                                          FRANCISCO                                                                                                                                  
+ANALISIS MATEMATICO                                          IVAN                                                                                                                                       
+ANALISIS MATEMATICO                                          JOSE MANUEL                                                                                                                                
+ANALISIS MATEMATICO                                          JUAN                                                                                                                                       
+ANALISIS MATEMATICO                                          MARIA                                                                                                                                      
+ANALISIS MATEMATICO                                          MARIO                                                                                                                                      
+ANALISIS MATEMATICO                                          PEDRO                                                                                                                                      
+ANALISIS MATEMATICO                                          SOLEDAD                                                                                                                                    
+ASTROFISICA                                                  ANGELA                                                                                                                                     
+ASTROFISICA                                                  CARLOS                                                                                                                                     
+ASTROFISICA                                                  CARMEN                                                                                                                                     
+ASTROFISICA                                                  DAVID                                                                                                                                      
+ASTROFISICA                                                  FRANCISCO                                                                                                                                  
+ASTROFISICA                                                  IVAN                                                                                                                                       
+ASTROFISICA                                                  JOSE MANUEL                                                                                                                                
+ASTROFISICA                                                  JUAN                                                                                                                                       
+ASTROFISICA                                                  MARIA                                                                                                                                      
+ASTROFISICA                                                  MARIO                                                                                                                                      
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ASTROFISICA                                                  PEDRO                                                                                                                                      
+ASTROFISICA                                                  SOLEDAD                                                                                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           ANGELA                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARLOS                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARMEN                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           DAVID                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           FRANCISCO                                                                                                                                  
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           IVAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JOSE MANUEL                                                                                                                                
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JUAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIA                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           PEDRO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           SOLEDAD                                                                                                                                    
+MATEMATICA FUNDAMENTAL                                       ANGELA                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       CARLOS                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       CARMEN                                                                                                                                     
+MATEMATICA FUNDAMENTAL                                       DAVID                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       FRANCISCO                                                                                                                                  
+MATEMATICA FUNDAMENTAL                                       IVAN                                                                                                                                       
+MATEMATICA FUNDAMENTAL                                       JOSE MANUEL                                                                                                                                
+MATEMATICA FUNDAMENTAL                                       JUAN                                                                                                                                       
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+MATEMATICA FUNDAMENTAL                                       MARIA                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       MARIO                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       PEDRO                                                                                                                                      
+MATEMATICA FUNDAMENTAL                                       SOLEDAD                                                                                                                                    
+
+48 rows selected.
+
+SQL> SELECT D "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO D1 CROSS JOIN AREA A1 CROSS JOIN PROFESOR P1
+  3  WHERE D1.CD=A1.CD AND A1.CAR=P1.CAR
+  4  ORDER BY D, P;
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANGELA                                                                                                                                     
+ANALISIS MATEMATICO                                          FRANCISCO                                                                                                                                  
+ANALISIS MATEMATICO                                          MARIO                                                                                                                                      
+ASTROFISICA                                                  CARMEN                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARLOS                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           DAVID                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JOSE MANUEL                                                                                                                                
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JUAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIA                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           PEDRO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           SOLEDAD                                                                                                                                    
+MATEMATICA FUNDAMENTAL                                       IVAN                                                                                                                                       
+
+12 rows selected.
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 25 (la consulta de encima) <<<<<<<<<<
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> REM >>>>>>>>>> 22 <<<<<<<<<<
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE T='GII' AND CAS IN (SELECT CAS
+  4                            FROM PLAN_DOCENTE
+  5                            WHERE ASIGNATURA.CAS=PLAN_DOCENTE.CAS);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+BASES DE DATOS                                                                                                                                                                                          
+INTELIGENCIA ARTIFICIAL                                                                                                                                                                                 
+INFORMATICA BASICA                                                                                                                                                                                      
+ALGEBRA                                                                                                                                                                                                 
+CALCULO                                                                                                                                                                                                 
+OPTIMIZACION                                                                                                                                                                                            
+GESTION DE RIESGOS                                                                                                                                                                                      
+
+7 rows selected.
+
+SQL> SPOOL OFF
+SQL> REM El 22 bien hecho (comprobamos ahora si que la asignatura se haya impartido o este impartiendo)
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> SPOOL OFF
+SQL> REM Vamos a hacer el 25 con natural join en vez de cross, porque es lo que nos pide el guion en general
+SQL> REM >>>>>>>>>> 25 (con natural join) <<<<<<<<<<
+SQL> SELECT D "DEPARTAMENTO", P "PROFESOR PERTENECIENTE"
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  ORDER BY D, P;
+
+DEPARTAMENTO                                                 PROFESOR PERTENECIENTE                                                                                                                     
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+ANALISIS MATEMATICO                                          ANGELA                                                                                                                                     
+ANALISIS MATEMATICO                                          CARINA                                                                                                                                     
+ANALISIS MATEMATICO                                          FRANCISCO                                                                                                                                  
+ANALISIS MATEMATICO                                          MARIO                                                                                                                                      
+ASTROFISICA                                                  CARMEN                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARLOS                                                                                                                                     
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           CARMELO                                                                                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           DAVID                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JOSE MANUEL                                                                                                                                
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           JUAN                                                                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           MARIA                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           PEDRO                                                                                                                                      
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION           SOLEDAD                                                                                                                                    
+MATEMATICA FUNDAMENTAL                                       IVAN                                                                                                                                       
+
+14 rows selected.
+
+SQL> SPOOL
+currently spooling to P5.lst
+SQL> REM Aparece Carina y Carmelo porque esta correccion la estoy haciendo despues de haber hecho la practica 7. En el informe, he modificado la salida (eliminando sus dos filas) para que no aparezca.
+SQL> SPOOL OFF
